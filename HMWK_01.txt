@@ -1,0 +1,270 @@
+==============================
+Programming Assignment 01
+
+------------------------------
+Purpose:
+
+  * Build on framework from Homework 00.
+  * Demonstrate:
+      - Loading a data file.
+      - Keeping an object as a set of vertices and faces.
+      - Understanding the meaning of a world space definition.
+      - Understanding the meaning of a screen spaces definition.
+
+------------------------------
+Tasks:
+
+
+* When you downloaded the zipfile for this homework assignment, you
+might have noticed that it was named "HMWK_01_dalioba.zip" and when
+you opened it, there was only one entry, a directory named
+"HMWK_01_dalioba" and all the files were in that directory.
+
+That's the clue for how your submission should be structured.
+
+Rename that "HMWK_01_dalioba" directory to "HMWK_01_abc1234" where
+"abc1234" is your NetID.
+
+* Update the three header lines in each of the files main.py,
+myWidgets.py, and myGraphics.py to have _your_ name, _your_ ID
+number, and the current date.
+
+* If you create other files for this assignment, ensure that the first
+three lines of each are
+
+    # Dalio, Brian A.
+    # 1000-123-456
+    # 2018-02-15
+
+but with _your_ name and _your_ ID number as well as the current date.
+
+* Change the cl_statusBar_frame.set() function in myWidgets.py so it
+puts your name on the front of every message.  See the sample
+screenshots for an example of what the display should look like.
+
+* myWidgets.py has many, many GUI elements defined to give you examples
+of how to create such things.  We need only three buttons for this
+assignment, a CLEAR, a LOAD, and a DRAW.
+
+* The CLEAR button's callback routine will clear all previously loaded
+data and anything that's been drawn on the canvas.
+
+* The LOAD button's callback routine will get a filename of a data file
+from the user.  (You can use the code that's in the browse_file
+callback to give the user a file dialog.)  That file will have an
+object definition in terms of vertices and faces, a world space
+definition, and a screen space definition.  The format of each of
+these kinds of lines is in the lecture notes handout.
+
+All of this data must be read, converted from string to numeric form,
+and kept for later use.
+
+* The DRAW button's callback routine will draw the loaded object on the
+canvas using the transformation implied by the world space and screen
+space definitions and the current canvas width and height.
+
+For this assignment, "drawing an object" means to draw each face of
+the object.  "Drawing a face" means to get the three vertices that
+make up the face, convert them from world space to pixel coordinates,
+and then draw three lines, v1 -> v2, v2 -> v3, v3 -> v1.
+
+* As well as drawing the object itself, also draw the outline of the
+viewport itself.  So, for example, if the viewport definition line is
+
+    s 0.1 0.1 0.9 0.9
+
+and the current canvas size is width 500 and height 400, you should
+draw the four lines:
+
+    (  50,  40 ) to (  50, 360 )
+    (  50, 360 ) to ( 450, 360 )
+    ( 450, 360 ) to ( 450,  40 )
+    ( 450,  40 ) to (  50,  40 )
+
+------------------------------
+Demo screenshots:
+
+Provided with this homework specification are a series of screenshots
+of my demo version going through the steps I will take your submitted
+programs through.
+
+You should look at these and ensure that your program gets the same
+results at each step.
+
+Before taking the first screenshot, I resized the window so the canvas
+would be of width 500 and height 400.
+
+* HMWK_01_dalioba-01-Resized-Canvas.png -- After resizing the canvas
+to 500 pixels wide by 400 pixels high.
+
+* HMWK_01_dalioba-02-Loading-Data-File-a.png -- After clicking the
+LOAD button for the first time.
+
+* HMWK_01_dalioba-03-Loading-Data-File-b.png -- After descending into
+the Data subdirectory.
+
+* HMWK_01_dalioba-04-Pyramid-Loaded.png -- After loading the
+pyramid.txt data file.  Note carefully that the file has 5 vertices
+and 6 faces.  If your program doesn't load the same number of each,
+something is wrong.
+
+* HMWK_01_dalioba-05-Pyramid-Drawn.png -- After drawing the pyramid
+object transformed by the world space and screen space definitions and
+the current canvas width and height.
+
+* HMWK_01_dalioba-06-Data-Cleared.png -- After clearing the previously
+loaded data and anything drawn on the canvas.
+
+* HMWK_01_dalioba-07-Loading-Teapot.png -- After clicking the LOAD
+button for the second time.  Notice that the file dialog has
+remembered the directory you were in before.
+
+* HMWK_01_dalioba-08-Teapot-Loaded.png -- After loading the teapot.txt
+data file.  Note carefully that the file has 1,536 vertices and 1,176
+faces.  If your program doesn't load the same number of each,
+something is wrong.
+
+* HMWK_01_dalioba-09-Teapot-Drawn.png -- After drawing the teapot
+object transformed by the world space and screen space definitions
+and the current canvas width and height.
+
+* HMWK_01_dalioba-10-Data-Cleared.png -- After clearing the previously
+loaded data and anything drawn on the canvas again.
+
+* HMWK_01_dalioba-11-Loading-Cow.png -- After clicking the LOAD
+button again.
+
+* HMWK_01_dalioba-12-Cow-Loaded.png -- After loading the cow.txt data
+file.  Note carefully that the file has 2,904 vertices and 5,804
+faces.  If your program doesn't load the same number of each,
+something is wrong.
+
+* HMWK_01_dalioba-13-Cow-Drawn.png -- After drawing the cow object
+transformed by the world space and screen space definitions and the
+current canvas width and height.
+
+* HMWK_01_dalioba-14-All-Done.png -- All done!
+
+------------------------------
+Hints:
+
+* When I wrote the demo version of this, I moved the "Open File
+Dialog" button and its browse_file callback routine from
+cl_buttons_panel_01 to cl_toolbar, and changed it to "Load".
+(Don't forget to move the var_filename definition from
+cl_buttons_panel_01 to cl_toolbar as well, or the browse_file callback
+won't work.)
+
+I then deleted cl_buttons_panel_01 and cl_buttons_panel_02 just to
+clean up the GUI a bit.  (All of those definitions are just to give
+you simple examples of how to do stuff with tkinter.)
+
+In cl_toolbar, I changed the name of "Toolbar Button 2" to "Clear".
+
+Just rearrange the tk.Button and self.button.pack calls to get the
+CLEAR, LOAD, and DRAW buttons in the order you want.
+
+* To delete everything drawn on a canvas, do this:
+
+    canvas.delete( "all" )
+
+* The homework is using a (simple) parallel projection onto the x, y
+plane.  For this projection, all you have to do is _ignore_ the z
+coordiate of all of the vertices.
+
+* The process of using the world space and screen space definitions
+and the current canvas width and height to determine the
+transformation required to convert vertex x, y coordinates into screen
+pixels is defined completely in the handout "4303 Homework 01
+Transform.pdf".
+
+* As a check on your math, here are the properly converted vertex
+x, y values for the pyramid data set and the first 10 vertices of the
+teapot and cow data sets.  These were computed with the world space
+and screen space definitions that are in the corresponding data files
+and for a canvas size of width 500 pixels and height 400 pixels.
+
+Loading data from 'pyramid.txt' ...
+5 vertices, 6 faces
+ 1. ( 0.000000, 0.000000 ) -> ( 250.000000, 200.000000 )
+ 2. ( 0.800000, 0.000000 ) -> ( 410.000000, 200.000000 )
+ 3. ( 0.000000, 0.800000 ) -> ( 250.000000, 328.000000 )
+ 4. ( 0.800000, 0.800000 ) -> ( 410.000000, 328.000000 )
+ 5. ( 0.400000, 0.400000 ) -> ( 330.000000, 264.000000 )
+
+Loading data from 'teapot.txt' ...
+1536 vertices, 1176 faces
+ 1. ( 0.000000, -1.500000 ) -> ( 250.000000, 155.000000 )
+ 2. ( 0.000000, -1.471500 ) -> ( 250.000000, 155.855000 )
+ 3. ( 0.000000, -1.441900 ) -> ( 250.000000, 156.743000 )
+ 4. ( 0.000000, -1.414700 ) -> ( 250.000000, 157.559000 )
+ 5. ( 0.000000, -1.393400 ) -> ( 250.000000, 158.198000 )
+ 6. ( 0.000000, -1.381600 ) -> ( 250.000000, 158.552000 )
+ 7. ( 0.000000, -1.382600 ) -> ( 250.000000, 158.522000 )
+ 8. ( 0.000000, -1.400000 ) -> ( 250.000000, 158.000000 )
+ 9. ( 0.347600, -1.461000 ) -> ( 263.904000, 156.170000 )
+10. ( 0.341000, -1.433200 ) -> ( 263.640000, 157.004000 )
+
+Loading data from 'cow.txt' ...
+2904 vertices, 5804 faces
+ 1. ( 0.151632, -0.043319 ) -> ( 310.652800, 186.137920 )
+ 2. ( 0.163424, -0.033934 ) -> ( 315.369600, 189.141120 )
+ 3. ( 0.163118, -0.053632 ) -> ( 315.247200, 182.837760 )
+ 4. ( 0.176307, -0.028912 ) -> ( 320.522800, 190.748160 )
+ 5. ( 0.174429, -0.051613 ) -> ( 319.771600, 183.483840 )
+ 6. ( 0.186153, -0.032952 ) -> ( 324.461200, 189.455360 )
+ 7. ( 0.189315, -0.049201 ) -> ( 325.726000, 184.255680 )
+ 8. ( 0.173804, -0.063906 ) -> ( 319.521600, 179.550080 )
+ 9. ( 0.161034, -0.067741 ) -> ( 314.413600, 178.322880 )
+10. ( 0.140389, -0.069190 ) -> ( 306.155600, 177.859200 )
+
+------------------------------
+Results:
+
+* Take three screenshots, one each showing the pyramid, teapot, and
+cow data objects drawn on the canvas.
+
+* They should correspond to the three sample shots:
+    HMWK_01_dalioba-05-Pyramid-Drawn.png
+    HMWK_01_dalioba-09-Teapot-Drawn.png
+    HMWK_01_dalioba-13-Cow-Drawn.png
+
+* Your displays should look amazingly like the ones in the sample
+screenshots with the exception that _your_ name is in the status bar
+messages, not mine.
+
+* Name the screenshots "HMWK_01_abc1234-...-Drawn.png", where
+"..." is Pyramid, Teapot, and Cow;  and "abc1234" is _your_ NetID.
+
+* Put those three screenshots in the Screenshots subdirectory and
+delete all of the sample screenshots before you make your submission.
+(I really don't need every student to send me my own sample
+screenshots back.  :)
+
+------------------------------
+Submission:
+
+* Zip up the entire directory "HMWK_01_abc1234" (where "abc1234" is
+_your_ NetID).
+
+* Name that zipfile "HMWK_01_abc1234.zip" and upload that one file as
+the submission for this homework assignment.
+
+* Your zipfile should have _one_ entry:  a directory named
+"HMWK_01_abc1234", in which are all of the files you're submitting.
+
+* Those files should include:
+    - All of your source code.
+    - Your screenshots (in the Screenshots subdirectory).
+
+* Please don't send me my own sample screenshots back.  I need only
+your three.
+
+* It's OK to leave the Data subdirectory there as I will be testing
+your program on those data files.
+
+* You can delete the __pycache__ subdirectory before submission, if
+you like.  (That subdirectory has the "compiled" versions of the
+Python files.)
+
+==============================
